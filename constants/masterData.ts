@@ -915,7 +915,7 @@ export const MASTER_DATA: ItemType[] = [
   // =================================================================
   // 🎮 E-SPOR & OYUN (Gaming Zone) - (G1 - G100)
   // =================================================================
-  // Rekabetçi / Online
+  // Rekabetçi / Onlines
   { id: 'g1', title: 'Valorant', icon: '🔫', tags: ['game', 'energetic', 'home', 'group', 'pc'], description: 'Rank kasma zamanı, entry fragger ol.' },
   { id: 'g2', title: 'League of Legends', icon: '⚔️', tags: ['game', 'energetic', 'home', 'group', 'pc'], description: 'Mid sal, orman dön.' },
   { id: 'g3', title: 'Counter-Strike 2', icon: '💣', tags: ['game', 'energetic', 'home', 'group', 'pc'], description: 'Rush B, don\'t stop.' },
@@ -1518,7 +1518,7 @@ export const WIZARD_STEPS: Record<string, QuestionType> = {
       { label: 'PC Master Race 🖥️', value: 'pc', nextStep: 'FINISH' },
       { label: 'Konsol (PS/Xbox) 🎮', value: 'console', nextStep: 'FINISH' },
       { label: 'Mobil 📱', value: 'mobile', nextStep: 'FINISH' },
-      
+
     ]
   }
 };
