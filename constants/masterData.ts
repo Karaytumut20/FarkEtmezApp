@@ -10,7 +10,7 @@ export type ItemType = {
 
 export const MASTER_DATA: ItemType[] = [
   // =================================================================
-<<<<<<< HEAD
+ 
   // 🌯 SOKAK LEZZETLERİ & FAST FOOD (F1 - F200)
   // =================================================================
   { id: 'f1', title: 'Yarım Ekmek Döner', icon: '🥙', tags: ['food', 'hungry', 'mid-budget', 'street', 'meat'], description: 'Bol soğanlı, bol tursulu.' },
@@ -307,7 +307,6 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'l38', title: 'Escargots (Salyangoz)', icon: '🐌', tags: ['food', 'snack', 'high-budget', 'luxury'], description: 'Sarımsaklı tereyağlı sos.' },
   { id: 'l39', title: 'Peynir Fondü', icon: '🧀', tags: ['food', 'snack', 'mid-budget', 'luxury', 'group'], description: 'Ekmeği sosa batır.' },
   { id: 'l40', title: 'Chocolate Fondue', icon: '🍫', tags: ['food', 'snack', 'mid-budget', 'luxury', 'sweet'], description: 'Meyvelerle erimiş çikolata.' },
-=======
   // 🌯 SOKAK LEZZETLERİ & FAST FOOD (Hızlı, Ucuz, Doyurucu) - DEVAM
   // =================================================================
   { id: 'f81', title: 'Kaşarlı Kumpir', icon: '🥔', tags: ['food', 'hungry', 'mid-budget', 'student'], description: 'Bol kaşar eritilmiş, tereyağlı patates.' },
@@ -578,7 +577,6 @@ export const MASTER_DATA: ItemType[] = [
   // =================================================================
   // 💎 LÜKS & KEYİF (Maaş Günü / Date) - DEVAM
   // =================================================================
->>>>>>> efde9eea15e8e09f88f4ab9b46e41e3bf3b9b3fe
   { id: 'l41', title: 'Truffle Makarna', icon: '🍝', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Trüf mantarı ile lezzet şöleni.' },
   { id: 'l42', title: 'Karabiber Soslu Bonfile', icon: '🍖', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Taze çekilmiş karabiber ve krema soslu.' },
   { id: 'l43', title: 'Istakoz Termidor', icon: '🦞', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Özel sos ve peynirle fırında.' },
@@ -586,7 +584,6 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'l45', title: 'Fuğru', icon: '🍄', tags: ['food', 'snack', 'high-budget', 'luxury'], description: 'Kuzu göbeği mantarı.' },
   { id: 'l46', title: 'Kuzu Kapama', icon: '🍖', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Kuzu eti, soğan ve baharatlarla.' },
   { id: 'l47', title: 'Ördek Konfit', icon: '🦆', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Yağda pişirilmiş ördek butu.' },
-<<<<<<< HEAD
   { id: 'l48', title: 'Kaz Ciğeri (Foie Gras)', icon: '🍖', tags: ['food', 'snack', 'high-budget', 'luxury'], description: 'Kızarmış ekmek üzerinde.' },
   { id: 'l49', title: 'Bıldırcın Sote', icon: '🐦', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Mantar ve kremayla.' },
   { id: 'l50', title: 'Sülün (Fırın)', icon: '🐦', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Özel marinasyonlu av eti.' },
@@ -1109,7 +1106,6 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'x28', 'title': 'Online Çizim Dersi', icon: '🎨', tags: ['activity', 'lazy', 'home', 'solo'], description: 'Yeni çizim teknikleri öğren.' },
   { id: 'x29', 'title': 'Hobi Malzemesi Alışverişi', icon: '🛍️', tags: ['activity', 'lazy', 'outdoor', 'solo'], description: 'Yeni bir hobi için malzeme al.' },
   { id: 'x30', 'title': 'Tarihi Belgesel İzle', icon: '📜', tags: ['watch', 'lazy', 'home', 'solo'], description: 'Medeniyetlerin yükselişi ve çöküşü.' },
-=======
   { id: 'l48', title: 'Kaz Ciğeri', icon: '🍖', tags: ['food', 'snack', 'high-budget', 'luxury'], description: 'Kaz ciğeri, elma ve soğanla.' },
   { id: 'l49', title: 'Bıldırcın', icon: '🐦', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Fırında veya ızgarada.' },
   { id: 'l50', title: 'Sülün', icon: '🐦', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Av eti sevenler için.' },
@@ -1435,7 +1431,7 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'g98', title: 'Spider-Man (2018)', icon: '🕷️', tags: ['activity', 'lazy', 'home', 'gaming'], description: 'Swing mekaniği, New York.' },
   { id: 'g99', title: 'Spider-Man: Miles Morales', icon: '⚡', tags: ['activity', 'lazy', 'home', 'gaming'], description: 'Yeni güçler, kişisel hikaye.' },
   { id: 'g100', title: 'Ghost of Tsushima', icon: '🎎', tags: ['activity', 'lazy', 'home', 'gaming'], description: 'Samuray, açık dünya, görsel şölen.' }
->>>>>>> efde9eea15e8e09f88f4ab9b46e41e3bf3b9b3fe
+ 
 ];
 
 // SİHİRBAZ SORULARI (Değişmeden kalabilir, veri ile uyumlu)
