@@ -4,13 +4,13 @@ export type ItemType = {
   id: string;
   title: string;
   icon: string;
-  tags: string[]; // 'food', 'activity', 'watch', 'hungry', 'bored', 'lazy', 'energetic', 'low-budget', 'high-budget', 'group', 'solo'
+  tags: string[]; // Algoritma için anahtar kelimeler
   description: string;
 };
 
 export const MASTER_DATA: ItemType[] = [
   // =================================================================
-  // 🍔 YEMEK - SOKAK LEZZETLERİ & FAST FOOD (Hızlı & Doyurucu)
+  // 🌯 SOKAK LEZZETLERİ & FAST FOOD (Hızlı, Ucuz, Doyurucu)
   // =================================================================
   { id: 'f1', title: 'Tavuk Döner & Ayran', icon: '🌯', tags: ['food', 'hungry', 'low-budget', 'fast', 'student'], description: 'Bol soslu, çift lavaş, turşu yanında.' },
   { id: 'f2', title: 'Yarım Ekmek Kokoreç', icon: '🥖', tags: ['food', 'hungry', 'mid-budget', 'street', 'night'], description: 'İri kıyım, bol kimyonlu, çeyrek yetmez.' },
@@ -50,6 +50,8 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'e8', title: 'Hünkar Beğendi', icon: '👑', tags: ['food', 'hungry', 'high-budget', 'luxury'], description: 'Saraylara layık, patlıcan yatağında et.' },
   { id: 'e9', title: 'Cağ Kebabı', icon: '🥩', tags: ['food', 'hungry', 'high-budget', 'traditional'], description: 'Erzurum usulü, şişleri sayma.' },
   { id: 'e10', title: 'Beyran Çorbası', icon: '🥣', tags: ['food', 'hungry', 'mid-budget', 'spicy'], description: 'Antep usulü, gribi söker atar.' },
+  { id: 'e11', title: 'Tarhana Çorbası', icon: '🥄', tags: ['food', 'light', 'low-budget', 'home'], description: 'Anne eli değmiş gibi, şifa.' },
+  { id: 'e12', title: 'Lahana Sarması', icon: '🥬', tags: ['food', 'hungry', 'mid-budget', 'home'], description: 'Karadeniz usulü, yoğurtla.' },
 
   // =================================================================
   // 💎 LÜKS & KEYİF (Maaş Günü / Date)
@@ -62,6 +64,7 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'l6', title: 'İtalyan Pizza', icon: '🍷', tags: ['food', 'hungry', 'high-budget', 'romance'], description: 'İncecik hamur, mozarella, fesleğen.' },
   { id: 'l7', title: 'Künefe & Kaymak', icon: '🥞', tags: ['food', 'dessert', 'mid-budget', 'group'], description: 'Sıcak şerbet, uzayan peynir.' },
   { id: 'l8', title: 'San Sebastian', icon: '🍰', tags: ['food', 'dessert', 'mid-budget', 'cafe'], description: 'Üzerine akışkan çikolata sos.' },
+  { id: 'l9', title: 'Fine Dining', icon: '🍽️', tags: ['food', 'hungry', 'high-budget', 'luxury', 'romance'], description: 'Tabakta az yemek, çok sanat.' },
 
   // =================================================================
   // 🏠 AKTİVİTE - EVDE / TEMBEL (Chill Mode)
@@ -113,7 +116,7 @@ export const MASTER_DATA: ItemType[] = [
   { id: 'o24', title: 'Kamp Yap', icon: '⛺', tags: ['activity', 'energetic', 'outdoor', 'nature'], description: 'Şehirden kaç, ateş yak, yıldızları izle.' }
 ];
 
-// SİHİRBAZ SORULARI
+// SİHİRBAZ SORULARI (Değişmeden kalabilir, veri ile uyumlu)
 export type QuestionType = {
   id: string;
   text: string;
