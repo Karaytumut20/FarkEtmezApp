@@ -917,6 +917,7 @@ export const WIZARD_STEPS: Record<string, QuestionType> = {
       { label: 'PC Master Race 🖥️', value: 'pc', nextStep: 'FINISH' },
       { label: 'Konsol (PS/Xbox) 🎮', value: 'console', nextStep: 'FINISH' },
       { label: 'Mobil 📱', value: 'mobile', nextStep: 'FINISH' },
+      
     ]
   }
 };
