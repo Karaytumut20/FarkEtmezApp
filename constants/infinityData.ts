@@ -1,0 +1,100 @@
+// constants/infinityData.ts
+
+export type OptionType = {
+  id: string;
+  text: string;
+  tags?: string[]; // 'cheap', 'outdoor', 'lazy' vb.
+};
+
+export type CategoryType = {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  color: string;
+  data: OptionType[];
+};
+
+export const INFINITY_DATA: CategoryType[] = [
+  {
+    id: 'food_master',
+    title: 'Gurme Masası',
+    icon: '🍖',
+    description: 'Açlık krizine kesin çözüm.',
+    color: '#FF6B6B',
+    data: [
+      { id: 'f1', text: 'İskender (Tereyağlı) 🥩' }, { id: 'f2', text: 'Adana Kebap & Şalgam 🌶️' },
+      { id: 'f3', text: 'Bol Malzemos Pizza 🍕' }, { id: 'f4', text: 'Ev Yapımı Hamburger 🍔' },
+      { id: 'f5', text: 'Çıtır Lahmacun (Limonlu) 🍋' }, { id: 'f6', text: 'Sushi & Noodle Gecesi 🍣' },
+      { id: 'f7', text: 'Sokak Lezzeti: Kokoreç 🥖' }, { id: 'f8', text: 'Tavuk Döner & Ayran 🌯' },
+      { id: 'f9', text: 'Kumpir (Full Karışık) 🥔' }, { id: 'f10', text: 'Mantı (Sarımsaklı) 🥟' },
+      { id: 'f11', text: 'Çiğ Köfte Dürüm (Acılı) 🌯' }, { id: 'f12', text: 'Kanat & Patates 🍗' },
+      { id: 'f13', text: 'Etli Ekmek 🥘' }, { id: 'f14', text: 'Pide (Kaşarlı/Kuşbaşılı) 🥙' },
+      { id: 'f15', text: 'Tantuni (Yoğurtlu) 🌮' }, { id: 'f16', text: 'Köfte & Piyaz 🥘' },
+      { id: 'f17', text: 'Midye Dolma (Yarışma Yapın) 🦪' }, { id: 'f18', text: 'Menemen (Soğanlı/Soğansız) 🍳' },
+      { id: 'f19', text: 'Waffle (Bol Çikolata) 🧇' }, { id: 'f20', text: 'Künefe & Süt 🧀' }
+    ]
+  },
+  {
+    id: 'watch_master',
+    title: 'Sinema Kulübü',
+    icon: '🎬',
+    description: 'Netflix/YouTube başında saatlerce arama yapma.',
+    color: '#4ECDC4',
+    data: [
+      { id: 'w1', text: 'Korku Filmi (Işıkları Kapat) 👻' }, { id: 'w2', text: '90lar Aksiyon Filmi 💥' },
+      { id: 'w3', text: 'Zihin Yakan Bilim Kurgu 👽' }, { id: 'w4', text: 'Göz Yaşartan Drama 🎭' },
+      { id: 'w5', text: 'Eski Türk Komedisi (Kemal Sunal vb.) 🎥' }, { id: 'w6', text: 'Suç & Gizem Belgeseli 🕵️‍♂️' },
+      { id: 'w7', text: 'Anime Filmi (Ghibli vb.) 🐉' }, { id: 'w8', text: 'Marvel/DC Maratonu 🦸' },
+      { id: 'w9', text: 'Stand-up Gösterisi İzle 🎤' }, { id: 'w10', text: 'Kısa YouTube Belgeselleri 📹' },
+      { id: 'w11', text: 'Harry Potter / Yüzüklerin Efendisi Serisi 🧙‍♂️' }, { id: 'w12', text: 'Zombi İstilası Temalı Film 🧟' }
+    ]
+  },
+  {
+    id: 'activity_social',
+    title: 'Aktivite & Eğlence',
+    icon: '🎉',
+    description: 'Evde oturmaktan sıkılanlara.',
+    color: '#FFE66D',
+    data: [
+      { id: 'a1', text: 'Sahilde Uzun Yürüyüş 🌊' }, { id: 'a2', text: 'Bowling Kapışması 🎳' },
+      { id: 'a3', text: 'En Yakın Kahveciye Git ☕' }, { id: 'a4', text: 'Kutu Oyunu Oyna (Monopoly/Tabu) 🎲' },
+      { id: 'a5', text: 'Bilardo Oyna 🎱' }, { id: 'a6', text: 'Go-Kart Yarışı Yap 🏎️' },
+      { id: 'a7', text: 'Lunaparka Git (Korku Tüneli) 🎡' }, { id: 'a8', text: 'Bisiklet Kirala ve Sür 🚲' },
+      { id: 'a9', text: 'Sessiz Sinema Oyna 🤫' }, { id: 'a10', text: 'Karaoke Yap (Evde veya Dışarıda) 🎤' },
+      { id: 'a11', text: 'Birlikte Yemek Yapın 👨‍🍳' }, { id: 'a12', text: 'Puzzle Başla (1000 Parça) 🧩' }
+    ]
+  },
+  {
+    id: 'deep_talk',
+    title: 'Derin Mevzular',
+    icon: '💬',
+    description: 'Sessizliği boz, birbirinizi tanıyın.',
+    color: '#A06CD5',
+    data: [
+      { id: 'd1', text: 'Çocukluğundaki en utanç verici anın ne? 😳' }, 
+      { id: 'd2', text: 'Piyangodan büyük ikramiye çıksa ilk ne alırsın? 💸' },
+      { id: 'd3', text: 'Hayatındaki en büyük pişmanlığın ne? 🤔' },
+      { id: 'd4', text: 'Bir günlüğüne görünmez olsan ne yaparsın? 👻' },
+      { id: 'd5', text: 'Hangi ünlüyle bir gün geçirmek isterdin? 🌟' },
+      { id: 'd6', text: 'Dünyada bir şeyi değiştirebilsen bu ne olurdu? 🌍' },
+      { id: 'd7', text: 'Issız bir adaya düşsen yanına alacağın 3 şey? 🏝️' },
+      { id: 'd8', text: 'En son ne zaman ve neden ağladın? 😢' }
+    ]
+  },
+  {
+    id: 'dare_master',
+    title: 'Cesaretin Var mı?',
+    icon: '🔥',
+    description: 'Sıkılanlar için adrenalin.',
+    color: '#FF9F43',
+    data: [
+      { id: 'dr1', text: 'Son attığın 3 mesajı sesli oku. 📱' },
+      { id: 'dr2', text: 'Rehberindeki rastgele birini ara ve havla. 🐕' },
+      { id: 'dr3', text: '1 dakika boyunca plank yap. 💪' },
+      { id: 'dr4', text: 'Yanındakinin taklidini yap. 🤡' },
+      { id: 'dr5', text: 'Instagram hikayende utanç verici bir foto paylaş. 📸' },
+      { id: 'dr6', text: 'Bir kaşık limon suyu iç (veya ekşi bir şey ye). 🍋' }
+    ]
+  }
+];
