@@ -1,5 +1,3 @@
-// constants/wizardSteps.ts
-
 export const WIZARD_STEPS: Record<string, any> = {
   // ADIM 1: KİMLERLEYİZ?
   'START': {

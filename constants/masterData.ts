@@ -1,5 +1,3 @@
-// constants/masterData.ts
-
 import { ItemType } from './types';
 import { FOOD_DATA } from './data/food';
 import { ACTIVITY_DATA } from './data/activities';
