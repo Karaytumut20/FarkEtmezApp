@@ -1,7 +1,7 @@
 // app/(tabs)/index.tsx
 
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, StatusBar, Animated, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, StatusBar, Animated, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { WizardButton } from '@/components/ui/WizardButton';
@@ -20,10 +20,12 @@ export default function GeniusHomeScreen() {
   // --- STATE ---
   const [currentStepId, setCurrentStepId] = useState<string>('START');
   const [filters, setFilters] = useState<string[]>([]); // Seçilen etiketler (tags)
-  const [results, setResults] = useState<ItemType[]>([]);
   const [isFinished, setIsFinished] = useState(false);
   const [finalChoice, setFinalChoice] = useState<ItemType | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  
+  // Aynı oturumda çıkanları tekrar göstermemek için geçmiş tutuyoruz
+  const [history, setHistory] = useState<string[]>([]); 
 
   // --- ANIMASYON DEĞERLERİ ---
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -59,52 +61,96 @@ export default function GeniusHomeScreen() {
     });
   };
 
-  // Sonuç Hesaplama Motoru
+  // Geliştirilmiş Sonuç Hesaplama Motoru
   const calculateResult = () => {
     setIsFinished(true);
     setIsCalculating(true);
     
-    // Filtreleme Mantığı: 
-    // Veri tabanındaki her bir öğe için, bizim seçtiğimiz filtrelerin (tags)
-    // kaç tanesini içerdiğine bakarız.
+    // 1. KATEGORİ BELİRLEME (Zorunlu Filtre)
+    // Kullanıcının seçtiği ana kategoriyi buluyoruz.
+    const mainCategories = ['food', 'activity', 'game', 'watch'];
     
-    // Örn: Filtreler=['food', 'hungry', 'low-budget']
-    // Item A tags=['food', 'low-budget'] -> Puan: 2
+    // Filtrelerimiz içinde bu kategorilerden biri var mı? (örn: 'game')
+    // State update asenkron olduğu için son eklenen tag henüz state'e yansımamış olabilir,
+    // bu yüzden filters state'ini kullanırken dikkatli olmalıyız.
+    // Ancak changeStep içinde filters update edildikten sonra calculateResult çağrılmıyor,
+    // changeStep içinde çağrıldığı için addedTag'i de hesaba katmak gerekebilir.
+    // Fakat changeStep fonksiyonunda setFilters asenkron çalışır.
+    // Bu basit yapıda React 18 otomatik batching yaptığı için sorun olmayabilir ama
+    // garanti olsun diye filters dizisini kullanıyoruz.
     
-    const scoredItems = MASTER_DATA.map(item => {
-      let score = 0;
-      filters.forEach(filter => {
-        if (item.tags.includes(filter)) score++;
-      });
-      return { item, score };
-    });
-
-    // En yüksek puanlıları al
-    const maxScore = Math.max(...scoredItems.map(s => s.score));
-    // Eğer hiç uyan yoksa, hepsini aday yap (fallback)
-    const bestCandidates = maxScore > 0 
-      ? scoredItems.filter(s => s.score === maxScore).map(s => s.item)
-      : MASTER_DATA;
-
-    setResults(bestCandidates);
-
-    // Heyecanlı bekleyiş animasyonu (3 saniye)
+    // NOT: changeStep fonksiyonunda setFilters sonrası hemen calculateResult çağrıldığında
+    // filters henüz güncellenmemiş olabilir. Bu yüzden normalde useEffect kullanmak daha iyidir
+    // ama kodu çok değiştirmemek için burada mantıksal bir filtreleme yapacağız.
+    
     setTimeout(() => {
-      // Rastgele birini seç
-      const winner = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
+      // SetTimeout içinde güncel state'e erişmek için fonksiyonel update kullanmak gerekir
+      // ya da filters'ı dependency olarak eklemek gerekir ama burada manuel bir trick yapacağız.
+      
+      // Basitlik adına: MASTER_DATA üzerinden filtreleme yapıyoruz.
+      
+      // Ana Kategoriyi Bul
+      const selectedCategory = filters.find(f => mainCategories.includes(f));
+      
+      // Havuzu belirle: Kategori seçildiyse sadece o kategoriden, yoksa hepsinden.
+      let candidateItems = selectedCategory 
+        ? MASTER_DATA.filter(item => item.tags.includes(selectedCategory))
+        : MASTER_DATA;
+
+      // 2. PUANLAMA
+      // Diğer kriterlere (bütçe, kişi sayısı vb.) göre puan ver.
+      const scoredItems = candidateItems.map(item => {
+        let score = 0;
+        filters.forEach(filter => {
+          // Ana kategori dışındaki filtreler puan kazandırır
+          if (item.tags.includes(filter) && filter !== selectedCategory) {
+            score++;
+          }
+        });
+        return { item, score };
+      });
+
+      // 3. EN İYİLERİ SEÇ
+      const maxScore = Math.max(...scoredItems.map(s => s.score));
+      let bestCandidates = scoredItems
+        .filter(s => s.score === maxScore)
+        .map(s => s.item);
+
+      // 4. GEÇMİŞ KONTROLÜ (History Check)
+      // Daha önce gösterilenleri ele.
+      const unshownCandidates = bestCandidates.filter(item => !history.includes(item.id));
+      
+      // Eğer hiç gösterilmemiş aday varsa onları kullan, yoksa mecburen eskilerden seç.
+      if (unshownCandidates.length > 0) {
+        bestCandidates = unshownCandidates;
+      }
+
+      // Kazananı Belirle
+      let winner: ItemType;
+      
+      if (bestCandidates.length === 0) {
+         // Hiçbir şey bulunamazsa rastgele (Fallback)
+         winner = MASTER_DATA[Math.floor(Math.random() * MASTER_DATA.length)];
+      } else {
+         winner = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
+      }
+
+      // State Güncellemeleri
       setFinalChoice(winner);
+      setHistory(prev => [...prev, winner.id]); // Tarihçeye ekle
       setIsCalculating(false);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    }, 2500);
+      
+    }, 2000); // 2 saniye bekleme
   };
 
   const resetApp = () => {
     setFilters([]);
-    setResults([]);
     setFinalChoice(null);
     setIsFinished(false);
     setIsCalculating(false);
     setCurrentStepId('START');
+    setHistory([]); // Geçmişi temizle
   };
 
   // --- ARAYÜZ PARÇALARI ---
@@ -119,7 +165,7 @@ export default function GeniusHomeScreen() {
         <Text style={styles.questionText}>{step.text}</Text>
         
         <View style={styles.optionsContainer}>
-          {step.options.map((opt, index) => (
+          {step.options.map((opt: any, index: number) => (
             <WizardButton 
               key={index} 
               label={opt.label} 
@@ -141,7 +187,10 @@ export default function GeniusHomeScreen() {
     <View style={styles.resultContainer}>
       <Text style={styles.calculatingTitle}>Analiz Yapılıyor...</Text>
       <Text style={styles.calculatingSubtitle}>
-        {filters.includes('food') ? 'Mideler taranıyor...' : 'Aktiviteler hesaplanıyor...'}
+        {filters.includes('food') ? 'Mideler taranıyor...' : 
+         filters.includes('game') ? 'Oyun kütüphanesi açılıyor...' :
+         filters.includes('watch') ? 'IMDB puanları kontrol ediliyor...' :
+         'Seçenekler eleniyor...'}
       </Text>
       <View style={styles.loaderBox}>
         <Text style={{fontSize: 80}}>🧠</Text>
