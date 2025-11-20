@@ -1,15 +1,61 @@
 import { ItemType } from '../types';
 
 export const ACTIVITY_DATA: ItemType[] = [
-  // 🏠 EV AKTİVİTELERİ
-  { id: 'h_act1', title: 'Film Gecesi Yap', icon: '🎬', tags: ['activity', 'lazy', 'home', 'solo', 'group'], description: 'Mısır patlat, battaniyeyi al.' },
-  // ... h_act verileri ...
+  // 🏠 EV MODU (Keyif & Tembellik & Rahatlama)
+  { id: 'h_act1', title: 'Dizi/Film Maratonu', icon: '🎬', tags: ['activity', 'lazy', 'home', 'solo', 'group'], description: 'Netflix veya favori siteden bir sezonu bitir.' },
+  { id: 'h_act2', title: 'Demleme Çay & Sohbet', icon: '☕', tags: ['activity', 'home', 'group', 'calm'], description: 'Çayı demle, arkadaşlarla ya da aileyle derin sohbete dal.' },
+  { id: 'h_act3', title: 'PC/Konsol Oyun Gecesi', icon: '🎮', tags: ['activity', 'home', 'solo', 'group', 'fun'], description: 'LoL, Valorant, FIFA veya hikayeli bir oyuna gömül.' },
+  { id: 'h_act4', title: 'Evde "Fit" Yemek Dene', icon: '🥗', tags: ['activity', 'home', 'solo', 'productive', 'food'], description: 'Eldeki malzemelerle pratik ve sağlıklı bir şeyler uydur.' },
+  { id: 'h_act5', title: 'Telefondaki Galeriyi Temizle', icon: '📱', tags: ['activity', 'home', 'solo', 'productive'], description: 'Gereksiz ekran görüntülerini ve bin tane olan aynı fotoları sil.' },
+  { id: 'h_act6', title: 'Balkon Keyfi Yap', icon: '🌇', tags: ['activity', 'home', 'solo', 'calm', 'lazy'], description: 'Varsa balkona çık, müzik aç, sokağı izle.' },
+  { id: 'h_act7', title: 'YouTube Shorts/Reels Batağı', icon: '🤳', tags: ['activity', 'lazy', 'home', 'solo'], description: 'Kısa videolar arasında kaybol (ama süreyi abartma).' },
+  { id: 'h_act8', title: 'Dolap/Sahibinden İlanı Aç', icon: '👕', tags: ['activity', 'home', 'solo', 'productive'], description: 'Kullanmadığın kıyafet veya eşyaları satılığa koy.' },
+  { id: 'h_act9', title: 'Kahve Yap & Kitap Oku', icon: '📚', tags: ['activity', 'home', 'solo', 'calm'], description: 'Türk kahvesi veya filtre kahve eşliğinde 30 sayfa oku.' },
+  { id: 'h_act10', title: 'Odayı/Masayı Topla', icon: '🧹', tags: ['activity', 'home', 'solo', 'productive'], description: 'Dağınık çalışma masasını düzenle, kafan da rahatlasın.' },
+  { id: 'h_act11', title: 'Gece Atıştırmalığı Hazırla', icon: '🥪', tags: ['activity', 'home', 'solo', 'food', 'lazy'], description: 'Tost, makarna veya noodle yap.' },
+  { id: 'h_act12', title: 'Discord\'da Takıl', icon: '🎧', tags: ['activity', 'home', 'group', 'social'], description: 'Arkadaşlarınla sesli sohbete gir, makara yap.' },
+  { id: 'h_act13', title: 'Eski Fotoğraflara Bak', icon: '📸', tags: ['activity', 'lazy', 'home', 'solo', 'calm'], description: 'Eski albümleri veya cloud arşivini karıştır.' },
+  { id: 'h_act14', title: 'Kişisel Bakım Yap', icon: '🛁', tags: ['activity', 'home', 'solo', 'healthy'], description: 'Duş al, sakal tıraşı ol veya cilt bakımı yap.' },
+  { id: 'h_act15', title: 'Playlist Düzenle', icon: '🎵', tags: ['activity', 'home', 'solo', 'calm'], description: 'Spotify/YouTube listelerini moda göre ayır.' },
 
-  // 🌳 DIŞARI AKTİVİTELERİ
-  { id: 'o_act1', title: 'Sinemaya Git', icon: '🍿', tags: ['activity', 'lazy', 'outdoor', 'solo', 'group'], description: 'Vizyondaki filme bilet al.' },
-  // ... o_act verileri ...
+  // 🏞️ DIŞARI (Sosyal & Gezme & Aktivite)
+  { id: 'o_act16', title: 'Sahilde Çekirdek & Kola', icon: '🌻', tags: ['activity', 'outside', 'group', 'calm', 'food'], description: 'Deniz kenarında veya parkta çekirdek çitleyip sohbet et.' },
+  { id: 'o_act17', title: 'Halı Saha Maçı', icon: '⚽', tags: ['activity', 'outside', 'group', 'healthy', 'fun'], description: 'Arkadaşları topla, haftalık maçını yap.' },
+  { id: 'o_act18', title: '3. Nesil Kahveciye Git', icon: '🥤', tags: ['activity', 'outside', 'solo', 'group', 'social'], description: 'Laptopu al çalış ya da arkadaşınla dedikodu yap.' },
+  { id: 'o_act19', title: 'AVM Gezisi', icon: '🏬', tags: ['activity', 'outside', 'group', 'lazy'], description: 'Bir şey almasan bile mağazaları dolaş, yemek katına çık.' },
+  { id: 'o_act20', title: 'PlayStation Cafe / İnternet Kafe', icon: '🎮', tags: ['activity', 'outside', 'group', 'fun'], description: 'FIFA kapışması veya arkadaşlarla takım oyunu.' },
+  { id: 'o_act21', title: 'Okey / Tavla Oyna', icon: '🎲', tags: ['activity', 'outside', 'group', 'fun', 'social'], description: 'Bir kafeye oturup saatlerce okey veya tavla çevir.' },
+  { id: 'o_act22', title: 'Sokak Lezzeti Ye', icon: '🌯', tags: ['activity', 'outside', 'group', 'food'], description: 'Çiğ köfte, kokoreç, döner veya midye göm.' },
+  { id: 'o_act23', title: 'Sinemaya Git', icon: '🍿', tags: ['activity', 'outside', 'group', 'event'], description: 'Vizyondaki popüler filme bilet al.' },
+  { id: 'o_act24', title: 'Bowling / Bilardo', icon: '🎱', tags: ['activity', 'outside', 'group', 'fun'], description: 'Ekiple gidilebilecek klasik eğlence.' },
+  { id: 'o_act25', title: 'Semt Pazarına/Bit Pazarına Bak', icon: '🛍️', tags: ['activity', 'outside', 'solo', 'group'], description: 'Ucuz kıyafet veya ilginç eşyalar kovala.' },
+  { id: 'o_act26', title: 'Arabayla/Motorla Turlama', icon: '🚗', tags: ['activity', 'outside', 'group', 'fun'], description: 'Müzik açıp şehirde boş boş turala (yakıt varsa).' },
+  { id: 'o_act27', title: 'Kamp Sandalyesini Kap Git', icon: '🌲', tags: ['activity', 'outside', 'group', 'calm', 'nature'], description: 'Manzaralı bir yere sandalyeni at, termosunu al.' },
+  { id: 'o_act28', title: 'Kütüphanede Ders/İş', icon: '🤫', tags: ['activity', 'outside', 'solo', 'productive'], description: 'Millet Bahçesi veya halk kütüphanesinde odaklan.' },
+  { id: 'o_act29', title: 'Fotoğraf Çekimine Çık', icon: '📷', tags: ['activity', 'outside', 'solo', 'group', 'creative'], description: 'Instagram için şehrin güzel yerlerinde foto çekil.' },
+  { id: 'o_act30', title: 'Ucuz Biletle Günübirlik Gezi', icon: '🚆', tags: ['activity', 'outside', 'group', 'travel'], description: 'YHT veya otobüsle yakın bir şehre gidip gel.' },
 
-  // GENEL AKTİVİTELER
-  { id: 'x1', title: 'Arkadaşını Ara', icon: '📞', tags: ['activity', 'lazy', 'home', 'solo'], description: 'Uzun zamandır konuşmadığın biri.' },
-  // ... x verileri ...
+  // 🧠 GELİŞİM & KARİYER (Gelecek Kaygısı & Öğrenme)
+  { id: 'p_act31', title: 'İngilizce Pratik Yap', icon: '🇬🇧', tags: ['activity', 'home', 'solo', 'productive'], description: 'Dizi izleyerek veya uygulamalarla kelime hazneni geliştir.' },
+  { id: 'p_act32', title: 'Yazılım/Tasarım Çalış', icon: '💻', tags: ['activity', 'home', 'solo', 'productive'], description: 'Tutorial izle, kendi web siteni/projeni yapmaya çalış.' },
+  { id: 'p_act33', title: 'CV/LinkedIn Güncelle', icon: '💼', tags: ['activity', 'home', 'solo', 'productive'], description: 'Profilini profesyonelleştir, yeteneklerini ekle.' },
+  { id: 'p_act34', title: 'Bütçe Planlaması Yap', icon: '💸', tags: ['activity', 'home', 'solo', 'productive'], description: 'Ay sonunu getirmek için harcamalarını yaz.' },
+  { id: 'p_act35', title: 'Yatırım Araştırması', icon: '📈', tags: ['activity', 'home', 'solo', 'productive'], description: 'Borsa, altın veya kripto piyasalarına göz at, bilgi edin.' },
+  { id: 'p_act36', title: 'Online Sertifika Al', icon: '🎓', tags: ['activity', 'home', 'solo', 'productive'], description: 'BTK Akademi veya Coursera\'dan ücretsiz kurs bitir.' },
+  { id: 'p_act37', title: 'Teknoloji Gündemini Oku', icon: '📰', tags: ['activity', 'home', 'solo', 'productive'], description: 'Webtekno, ShiftDelete gibi yerlerden yeni cihazlara bak.' },
+  { id: 'p_act38', title: 'Medium/Blog Yazısı Oku', icon: '📖', tags: ['activity', 'home', 'solo', 'productive'], description: 'İlgi alanınla ilgili teknik veya kişisel gelişim yazıları oku.' },
+  { id: 'p_act39', title: 'Gelecek Hedefleri Listesi', icon: '🎯', tags: ['activity', 'home', 'solo', 'productive'], description: '5 yıl sonra nerede olmak istediğini düşün.' },
+  { id: 'p_act40', title: 'Hızlı Okuma Teknikleri', icon: '⚡', tags: ['activity', 'home', 'solo', 'productive'], description: 'Daha hızlı okuyup anlamak için egzersiz yap.' },
+
+  // 🎨 YARATICI & SOSYAL (Hobi & Eğlence)
+  { id: 'c_act41', title: 'Tabu / Vampir Köylü Oyna', icon: '🃏', tags: ['activity', 'home', 'group', 'fun'], description: 'Evde arkadaşlarla oynanacak en iyi grup oyunları.' },
+  { id: 'c_act42', title: 'Video Edit / Photoshop Yap', icon: '🎞️', tags: ['activity', 'home', 'solo', 'creative'], description: 'Kendi videolarını kurgula veya fotoları editle.' },
+  { id: 'c_act43', title: 'Şarkı Söyle / Karaoke', icon: '🎤', tags: ['activity', 'home', 'group', 'fun'], description: 'Youtube\'dan karaoke açıp bağır çağır şarkı söyle.' },
+  { id: 'c_act44', title: 'Tamirat / Tadilat Yap', icon: '🛠️', tags: ['activity', 'home', 'solo', 'productive'], description: 'Evde bozuk bir şeyleri tamir etmeye çalış.' },
+  { id: 'c_act45', title: 'Mangal Planı Yap', icon: '🔥', tags: ['activity', 'outside', 'group', 'food', 'social'], description: 'Hafta sonu için yer ve malzeme ayarla.' },
+  { id: 'c_act46', title: 'Gitar/Bağlama Tıngırdat', icon: '🎸', tags: ['activity', 'home', 'solo', 'creative'], description: 'Enstrüman varsa pasını at, yoksa öğrenmeye çalış.' },
+  { id: 'c_act47', title: 'Twitch Yayını İzle', icon: '👾', tags: ['activity', 'home', 'solo', 'lazy'], description: 'Favori yayıncının canlı yayınına katıl.' },
+  { id: 'c_act48', title: 'İlginç Belgesel İzle', icon: '🐅', tags: ['activity', 'home', 'solo', 'calm'], description: '140journos veya TRT Belgesel gibi yerlerden bir şeyler izle.' },
+  { id: 'c_act49', title: 'Kendi Web Siteni Tasarla', icon: '🌐', tags: ['activity', 'home', 'solo', 'creative', 'productive'], description: 'Basit de olsa bir portfolyo sayfası yap.' },
+  { id: 'c_act50', title: 'Nostaljik Çizgi Film İzle', icon: '📺', tags: ['activity', 'home', 'solo', 'lazy'], description: 'Çocukluğunun çizgi filmlerinden bir bölüm aç.' },
 ];

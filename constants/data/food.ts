@@ -2,7 +2,7 @@ import { ItemType } from '../types';
 
 export const FOOD_DATA: ItemType[] = [
   // =================================================================
-  // 💸 LOW BUDGET (Öğrenci İşi / Uygun Fiyatlı)
+  // 💸 LOW BUDGET (Öğrenci İşi / Uygun Fiyatlı) - (30 Ürün)
   // =================================================================
   { id: 'f_low1', title: 'Tavuk Döner Dürüm', icon: '🌯', tags: ['food', 'hungry', 'low-budget', 'street', 'chicken'], description: 'Bol soslu, çift lavaş, öğrenci dostu.' },
   { id: 'f_low2', title: 'Yarım Ekmek Köfte', icon: '🍔', tags: ['food', 'hungry', 'low-budget', 'street', 'meat'], description: 'Maç önü klasiği, bol soğanlı.' },
@@ -16,9 +16,28 @@ export const FOOD_DATA: ItemType[] = [
   { id: 'f_low10', title: 'Mercimek Çorbası', icon: '🥣', tags: ['food', 'light', 'low-budget', 'street', 'home'], description: 'Limon sıkıp içmelik, şifa niyetine.' },
   { id: 'f_low11', title: 'Kısır', icon: '🥗', tags: ['food', 'snack', 'low-budget', 'home', 'group', 'vegan'], description: 'Altın günlerinin yıldızı, bol ekşili.' },
   { id: 'f_low12', title: 'Bardakta Mısır', icon: '🌽', tags: ['food', 'snack', 'low-budget', 'street'], description: 'Bol tereyağlı, nar ekşili, baharatlı.' },
+  // Yeni eklenenler:
+  { id: 'f_low13', title: 'Sucuklu Yumurta', icon: '🍳', tags: ['food', 'hungry', 'low-budget', 'home', 'morning'], description: 'Hafta sonu klasiği, ekmek banmalık.' },
+  { id: 'f_low14', title: 'Sosisli Sandviç', icon: '🌭', tags: ['food', 'snack', 'low-budget', 'street', 'fast'], description: 'Ketçap, mayonez ve turşu.' },
+  { id: 'f_low15', title: 'Gözleme', icon: '🫓', tags: ['food', 'snack', 'low-budget', 'street'], description: 'Peynirli, patatesli veya ıspanaklı.' },
+  { id: 'f_low16', title: 'Yayla Çorbası', icon: '🥣', tags: ['food', 'light', 'low-budget', 'home'], description: 'Nane ve tereyağı sosuyla.' },
+  { id: 'f_low17', title: 'Patates Kızartması (Porsiyon)', icon: '🍟', tags: ['food', 'snack', 'low-budget', 'street', 'fast'], description: 'Büyük boy, bol tuzlu.' },
+  { id: 'f_low18', title: 'Yumurtalı Ekmek', icon: '🍞', tags: ['food', 'hungry', 'low-budget', 'home', 'morning'], description: 'Sıcacık, yanında domates.' },
+  { id: 'f_low19', title: 'Ton Balıklı Sandviç', icon: '🥪', tags: ['food', 'snack', 'low-budget', 'fast', 'light'], description: 'Hafif ve doyurucu.' },
+  { id: 'f_low20', title: 'Kaşarlı Patates', icon: '🥔', tags: ['food', 'hungry', 'low-budget', 'home', 'student'], description: 'Fırında erimiş kaşar.' },
+  { id: 'f_low21', title: 'Peynirli Poğaça & Meyve Suyu', icon: '🥐', tags: ['food', 'snack', 'low-budget', 'morning'], description: 'Okul/iş arası hızlı atıştırmalık.' },
+  { id: 'f_low22', title: 'Kuru Ekmek Arası Domates & Zeytin', icon: '🍅', tags: ['food', 'snack', 'low-budget', 'home', 'vegan'], description: 'Basit ama lezzetli.' },
+  { id: 'f_low23', title: 'Tarhana Çorbası', icon: '🥣', tags: ['food', 'light', 'low-budget', 'home', 'traditional'], description: 'Kış günlerinin vazgeçilmezi.' },
+  { id: 'f_low24', title: 'Balık Ekmek', icon: '🐟', tags: ['food', 'hungry', 'low-budget', 'street', 'fish'], description: 'Eminönü klasiği, bol soğanlı.' },
+  { id: 'f_low25', title: 'Falafel Dürüm', icon: '🧆', tags: ['food', 'snack', 'low-budget', 'street', 'vegan'], description: 'Humuslu, taze sebzelerle.' },
+  { id: 'f_low26', title: 'Waffle (Küçük)', icon: '🧇', tags: ['food', 'snack', 'low-budget', 'sweet'], description: 'Tek çeşit sos ve meyve.' },
+  { id: 'f_low27', title: 'Közde Patates', icon: '🥔', tags: ['food', 'snack', 'low-budget', 'street'], description: 'Tereyağlı, baharatlı.' },
+  { id: 'f_low28', title: 'Ev Yapımı Çiğ Köfte', icon: '🌶️', tags: ['food', 'snack', 'low-budget', 'home', 'vegan', 'spicy'], description: 'Lavaşsız, marul üzerinde.' },
+  { id: 'f_low29', title: 'Sütlü Tatlı (Sütlaç/Kazandibi)', icon: '🍮', tags: ['food', 'snack', 'low-budget', 'sweet'], description: 'Hafif ve geleneksel.' },
+  { id: 'f_low30', title: 'Haşlanmış Yumurta & Zeytin', icon: '🥚', tags: ['food', 'morning', 'low-budget', 'home'], description: 'Klasik hızlı kahvaltı.' },
 
   // =================================================================
-  // 💳 MID BUDGET (Orta Halli / Esnaf Lokantası / Restoran)
+  // 💳 MID BUDGET (Orta Halli / Esnaf Lokantası / Restoran) - (30 Ürün)
   // =================================================================
   { id: 'f_mid1', title: 'İskender Kebap', icon: '🍛', tags: ['food', 'hungry', 'mid-budget', 'street', 'meat', 'traditional'], description: 'Bol tereyağlı, yoğurtlu Bursa efsanesi.' },
   { id: 'f_mid2', title: 'Adana Kebap', icon: '🍢', tags: ['food', 'hungry', 'mid-budget', 'street', 'meat', 'spicy'], description: 'Acılı, yanında közlenmiş biber ve şalgamla.' },
@@ -32,9 +51,28 @@ export const FOOD_DATA: ItemType[] = [
   { id: 'f_mid10', title: 'Pizza (Orta Boy)', icon: '🍕', tags: ['food', 'hungry', 'mid-budget', 'fast', 'group'], description: 'Karışık, bol malzemeli, kenarı dolgulu.' },
   { id: 'f_mid11', title: 'Izgara Köfte Porsiyon', icon: '🍖', tags: ['food', 'hungry', 'mid-budget', 'street', 'meat'], description: 'Yanında piyaz ve köz biber ile.' },
   { id: 'f_mid12', title: 'Künefe', icon: '🧀', tags: ['food', 'snack', 'mid-budget', 'street', 'sweet'], description: 'Hatay usulü, peyniri uzayan sıcak tatlı.' },
+  // Yeni eklenenler:
+  { id: 'f_mid13', title: 'Alinazik Kebap', icon: '🍆', tags: ['food', 'hungry', 'mid-budget', 'street', 'meat', 'traditional'], description: 'Közlenmiş patlıcan yatağında et.' },
+  { id: 'f_mid14', title: 'Tavuk Şiş Porsiyon', icon: '🍢', tags: ['food', 'hungry', 'mid-budget', 'street', 'chicken'], description: 'Pirinç pilavı ve salata ile.' },
+  { id: 'f_mid15', title: 'Kayseri Mantısı (Porsiyon)', icon: '🥟', tags: ['food', 'hungry', 'mid-budget', 'home', 'traditional'], description: 'Küçük ve bol yoğurtlu.' },
+  { id: 'f_mid16', title: 'Fırında Güveç', icon: '🥘', tags: ['food', 'hungry', 'mid-budget', 'home', 'meat', 'traditional'], description: 'Sebze ve etin mükemmel uyumu.' },
+  { id: 'f_mid17', title: 'Balık Izgara (Hamsi/İstavrit)', icon: '🐟', tags: ['food', 'light', 'mid-budget', 'street', 'fish'], description: 'Yanında bol yeşillik.' },
+  { id: 'f_mid18', title: 'Köri Soslu Tavuk', icon: '🍛', tags: ['food', 'hungry', 'mid-budget', 'home', 'chicken'], description: 'Makarna veya pilav eşliğinde.' },
+  { id: 'f_mid19', title: 'Çoban Kavurma', icon: '🍲', tags: ['food', 'hungry', 'mid-budget', 'meat', 'traditional'], description: 'Kuzu etinden, tereyağlı.' },
+  { id: 'f_mid20', title: 'Yaprak Sarma (Zeytinyağlı)', icon: '🌿', tags: ['food', 'snack', 'mid-budget', 'home', 'vegan'], description: 'Bol limonlu, soğuk servis.' },
+  { id: 'f_mid21', title: 'Mercimek Köftesi', icon: '🧆', tags: ['food', 'snack', 'mid-budget', 'home', 'vegan'], description: 'Taze marul yaprağında servis.' },
+  { id: 'f_mid22', title: 'Hamburger (Gurme)', icon: '🍔', tags: ['food', 'hungry', 'mid-budget', 'street', 'meat'], description: 'Özel peynirli, karamelize soğanlı.' },
+  { id: 'f_mid23', title: 'Su Böreği (Porsiyon)', icon: '🥧', tags: ['food', 'snack', 'mid-budget', 'home', 'traditional'], description: 'Kıymalı veya peynirli, çıtır çıtır.' },
+  { id: 'f_mid24', title: 'Tost (Üçgen/Ayvalık)', icon: '🥪', tags: ['food', 'snack', 'mid-budget', 'street', 'morning'], description: 'Bol malzemeli, eritilmiş peynirli.' },
+  { id: 'f_mid25', title: 'Taze Fasulye (Zeytinyağlı)', icon: '🥗', tags: ['food', 'light', 'mid-budget', 'home', 'vegan'], description: 'Yanında cacık ile.' },
+  { id: 'f_mid26', title: 'Ekşili Köfte', icon: '🍲', tags: ['food', 'hungry', 'mid-budget', 'home', 'traditional'], description: 'Limonlu ve nane soslu.' },
+  { id: 'f_mid27', title: 'Mücver (Porsiyon)', icon: '🥒', tags: ['food', 'light', 'mid-budget', 'home', 'vegan'], description: 'Yoğurtla servis edilen kabak kızartması.' },
+  { id: 'f_mid28', title: 'Tavuk Sote', icon: '🐔', tags: ['food', 'hungry', 'mid-budget', 'home', 'chicken'], description: 'Biberli ve domatesli, sulu yemek.' },
+  { id: 'f_mid29', title: 'Patlıcan Musakka', icon: '🍆', tags: ['food', 'hungry', 'mid-budget', 'home', 'meat'], description: 'Kıymalı, fırında beşamel soslu.' },
+  { id: 'f_mid30', title: 'Kemalpaşa Tatlısı', icon: '🍮', tags: ['food', 'snack', 'mid-budget', 'sweet', 'traditional'], description: 'Şerbetli, yanında kaymak.' },
 
   // =================================================================
-  // 👑 HIGH BUDGET (Lüks / Ziyafet / Özel Gün)
+  // 👑 HIGH BUDGET (Lüks / Ziyafet / Özel Gün) - (30 Ürün)
   // =================================================================
   { id: 'f_high1', title: 'Kuzu Tandır', icon: '🍖', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat', 'traditional'], description: 'Lokum gibi dağılan, saatlerce pişmiş et.' },
   { id: 'f_high2', title: 'Dallas Steak', icon: '🥩', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'Kalın kesim, mermerimsi doku, ızgara.' },
@@ -46,4 +84,25 @@ export const FOOD_DATA: ItemType[] = [
   { id: 'f_high8', title: 'T-Bone Steak', icon: '🥩', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'Hem bonfile hem antrikot, devasa parça.' },
   { id: 'f_high9', title: 'Fıstıklı Baklava (Kilo)', icon: '🥐', tags: ['food', 'snack', 'high-budget', 'luxury', 'sweet', 'group'], description: 'Gaziantep\'ten özel, bol fıstıklı.' },
   { id: 'f_high10', title: 'Osso Buco', icon: '🥘', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'İtalyan usulü dana incik, gurme lezzet.' },
+  // Yeni eklenenler:
+  { id: 'f_high11', title: 'Dana Bonfile Izgara', icon: '🥩', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'Özel marine edilmiş, yanında kuşkonmaz.' },
+  { id: 'f_high12', title: 'Enginar Dolması', icon: '🥗', tags: ['food', 'light', 'high-budget', 'luxury', 'vegan'], description: 'Zeytinyağlı, özel bir başlangıç.' },
+  { id: 'f_high13', title: 'Deniz Mahsullü Makarna', icon: '🍝', tags: ['food', 'hungry', 'high-budget', 'luxury', 'fish'], description: 'Taze karides ve midye ile.' },
+  { id: 'f_high14', title: 'Somon Izgara', icon: '🐟', tags: ['food', 'light', 'high-budget', 'luxury', 'fish'], description: 'Tereyağlı sos ile servis.' },
+  { id: 'f_high15', title: 'Kuzu Pirzola (Porsiyon)', icon: '🍖', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'Mantar soslu, patates püresi eşliğinde.' },
+  { id: 'f_high16', title: 'Tiramisu (İtalyan Usulü)', icon: '🍰', tags: ['food', 'snack', 'high-budget', 'luxury', 'sweet'], description: 'Mascarpone peynirli, bol kahveli.' },
+  { id: 'f_high17', title: 'Paella (İspanyol Pilavı)', icon: '🥘', tags: ['food', 'hungry', 'high-budget', 'luxury', 'fish', 'group'], description: 'Safranlı, deniz ürünlü büyük tava.' },
+  { id: 'f_high18', title: 'Ördek Konfi', icon: '🦆', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'Fransız mutfağı klasiği, çıtır derili.' },
+  { id: 'f_high19', title: 'Trüflü Makarna (Tagliatelle)', icon: '🍝', tags: ['food', 'hungry', 'high-budget', 'luxury', 'vegan'], description: 'Beyaz trüf yağı ile tatlandırılmış.' },
+  { id: 'f_high20', title: 'Kobe/Wagyu Burger', icon: '🍔', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat'], description: 'Özel et, gurme ekmek ve soslar.' },
+  { id: 'f_high21', title: 'Steak Tartare', icon: '🥩', tags: ['food', 'light', 'high-budget', 'luxury', 'meat'], description: 'Çiğ kıymadan hazırlanan meze.' },
+  { id: 'f_high22', title: 'Risotto (Mantar/Peynir)', icon: '🍚', tags: ['food', 'hungry', 'high-budget', 'luxury', 'vegan'], description: 'Kremalı İtalyan pilavı.' },
+  { id: 'f_high23', title: 'Karides Tempura', icon: '🍤', tags: ['food', 'snack', 'high-budget', 'luxury', 'fish'], description: 'Japon usulü çıtır karides.' },
+  { id: 'f_high24', title: 'Cheesecake (New York)', icon: '🍰', tags: ['food', 'snack', 'high-budget', 'luxury', 'sweet'], description: 'Kremalı ve yoğun peynirli.' },
+  { id: 'f_high25', title: 'Chateaubriand (2 Kişilik)', icon: '🥩', tags: ['food', 'hungry', 'high-budget', 'luxury', 'meat', 'group'], description: 'Özel kesim dana bonfilesi.' },
+  { id: 'f_high26', title: 'Siyah Makarna (Mürekkep Balıklı)', icon: '🍝', tags: ['food', 'hungry', 'high-budget', 'luxury', 'fish'], description: 'Deniz mahsulleri soslu, özel sunum.' },
+  { id: 'f_high27', title: 'Kaz Ciğeri (Foie Gras)', icon: '🦢', tags: ['food', 'snack', 'high-budget', 'luxury', 'meat'], description: 'Lüks Fransız mezesi.' },
+  { id: 'f_high28', title: 'Dana Carpaccio', icon: '🥩', tags: ['food', 'light', 'high-budget', 'luxury', 'meat'], description: 'İnce dilimlenmiş çiğ dana eti.' },
+  { id: 'f_high29', title: 'Sufle (Çikolatalı)', icon: '🍫', tags: ['food', 'snack', 'high-budget', 'luxury', 'sweet'], description: 'İçi akışkan, dondurmayla servis.' },
+  { id: 'f_high30', title: 'Michelin Yıldızlı Tatlı Tabağı', icon: '✨', tags: ['food', 'snack', 'high-budget', 'luxury', 'sweet', 'group'], description: 'Şefin özel tadım menüsü finali.' },
 ];

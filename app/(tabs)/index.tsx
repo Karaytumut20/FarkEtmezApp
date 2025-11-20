@@ -1,5 +1,3 @@
-// app/(tabs)/index.tsx
-
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, StatusBar, Animated, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -42,12 +40,16 @@ export default function GeniusHomeScreen() {
     ]).start(() => {
       
       // 2. Veriyi güncelle
+      let newFilters = [...filters];
       if (addedTag) {
-        setFilters(prev => [...prev, addedTag]);
+        newFilters = [...newFilters, addedTag];
+        setFilters(newFilters);
       }
 
       if (nextStepId === 'FINISH') {
-        calculateResult();
+        // Sonuca giderken güncel filtreleri parametre olarak gönderiyoruz
+        // çünkü state güncellemesi asenkron olabilir.
+        calculateResult(newFilters);
       } else {
         setCurrentStepId(nextStepId);
       }
@@ -61,121 +63,114 @@ export default function GeniusHomeScreen() {
     });
   };
 
-  // Geliştirilmiş Sonuç Hesaplama Motoru
-  const calculateResult = () => {
+  // --- GELİŞTİRİLMİŞ KATI FİLTRELEME MOTORU ---
+  const calculateResult = (currentFilters: string[] = filters) => {
     setIsFinished(true);
     setIsCalculating(true);
-    
-    // 1. KATEGORİ BELİRLEME (Zorunlu Filtre)
-    // Kullanıcının seçtiği ana kategoriyi buluyoruz.
-    const mainCategories = ['food', 'activity', 'game', 'watch'];
-    
-    // Filtrelerimiz içinde bu kategorilerden biri var mı? (örn: 'game')
-    // State update asenkron olduğu için son eklenen tag henüz state'e yansımamış olabilir,
-    // bu yüzden filters state'ini kullanırken dikkatli olmalıyız.
-    // Ancak changeStep içinde filters update edildikten sonra calculateResult çağrılmıyor,
-    // changeStep içinde çağrıldığı için addedTag'i de hesaba katmak gerekebilir.
-    // Fakat changeStep fonksiyonunda setFilters asenkron çalışır.
-    // Bu basit yapıda React 18 otomatik batching yaptığı için sorun olmayabilir ama
-    // garanti olsun diye filters dizisini kullanıyoruz.
-    
-    // NOT: changeStep fonksiyonunda setFilters sonrası hemen calculateResult çağrıldığında
-    // filters henüz güncellenmemiş olabilir. Bu yüzden normalde useEffect kullanmak daha iyidir
-    // ama kodu çok değiştirmemek için burada mantıksal bir filtreleme yapacağız.
-    
+
+    // Kullanıcıya "düşünüyormuş" hissi vermek için kısa gecikme
     setTimeout(() => {
-      // SetTimeout içinde güncel state'e erişmek için fonksiyonel update kullanmak gerekir
-      // ya da filters'ı dependency olarak eklemek gerekir ama burada manuel bir trick yapacağız.
-      
-      // Basitlik adına: MASTER_DATA üzerinden filtreleme yapıyoruz.
-      
-      // Ana Kategoriyi Bul
-      const selectedCategory = filters.find(f => mainCategories.includes(f));
-      
-      // Havuzu belirle: Kategori seçildiyse sadece o kategoriden, yoksa hepsinden.
-      let candidateItems = selectedCategory 
+      console.log("Seçilen Filtreler:", currentFilters);
+
+      // 1. ANA KATEGORİYİ BUL (Zorunlu)
+      const mainCategories = ['food', 'activity', 'game', 'watch'];
+      const selectedCategory = currentFilters.find(f => mainCategories.includes(f));
+
+      // Eğer kategori yoksa hepsini getir (Hata koruması), varsa sadece o kategoriyi al.
+      let candidates = selectedCategory 
         ? MASTER_DATA.filter(item => item.tags.includes(selectedCategory))
         : MASTER_DATA;
 
-      // ************************************************
-      // START: KULLANICI İSTEĞİ - FOOD İÇİN BÜTÇE ZORUNLULUĞU
-      // ************************************************
-      const budgetFilters = ['low-budget', 'mid-budget', 'high-budget'];
-      
-      // Eğer ana kategori 'food' ise ve bir bütçe filtresi seçilmişse, bu filtreyi zorunlu kıl
-      if (selectedCategory === 'food') {
-          const selectedBudgetFilter = filters.find(f => budgetFilters.includes(f));
-          if (selectedBudgetFilter) {
-              // candidateItems'ı, sadece seçilen bütçe etiketini içerenlerle kısıtla
-              candidateItems = candidateItems.filter(item => item.tags.includes(selectedBudgetFilter));
-          }
-      }
-      // ************************************************
-      // END: KULLANICI İSTEĞİ - FOOD
-      // ************************************************
+      // 2. SOSYAL FİLTRELEME (SOLO vs GROUP) - ZORUNLU
+      // Kullanıcının ilk baştaki tercihine göre uyumsuz olanları kesinlikle eliyoruz.
+      const isSolo = currentFilters.includes('solo');
+      const isGroup = currentFilters.includes('group');
 
-      // ************************************************
-      // START: KULLANICI İSTEĞİ - ACTIVITY İÇİN KONUM ZORUNLULUĞU
-      // ************************************************
-      const locationFilters = ['home', 'outdoor'];
-      
-      // Eğer ana kategori 'activity' ise ve bir konum filtresi seçilmişse, bu filtreyi zorunlu kıl
-      if (selectedCategory === 'activity') {
-          const selectedLocationFilter = filters.find(f => locationFilters.includes(f));
-          if (selectedLocationFilter) {
-              // candidateItems'ı, sadece seçilen konum etiketini içerenlerle kısıtla
-              candidateItems = candidateItems.filter(item => item.tags.includes(selectedLocationFilter));
-          }
-      }
-      // ************************************************
-      // END: KULLANICI İSTEĞİ - ACTIVITY
-      // ************************************************
-
-      // 2. PUANLAMA
-      // Diğer kriterlere (bütçe, kişi sayısı vb.) göre puan ver.
-      const scoredItems = candidateItems.map(item => {
-        let score = 0;
-        filters.forEach(filter => {
-          // Ana kategori dışındaki filtreler puan kazandırır
-          if (item.tags.includes(filter) && filter !== selectedCategory) {
-            score++;
-          }
+      if (isSolo) {
+        // Eğer kullanıcı YALNIZ ise: Sadece grup gerektirenleri çıkar.
+        // Bir item 'group' tagine sahip ama 'solo' tagine sahip değilse, o aktivite tek yapılamaz demektir.
+        candidates = candidates.filter(item => {
+            const requiresGroup = item.tags.includes('group') && !item.tags.includes('solo');
+            return !requiresGroup; 
         });
-        return { item, score };
-      });
+      } 
+      else if (isGroup) {
+        // Eğer kullanıcı GRUP ise: Sadece solo yapılanları çıkar.
+        // Bir item 'solo' tagine sahip ama 'group' tagine sahip değilse, o aktivite grupla yapılamaz demektir.
+        candidates = candidates.filter(item => {
+            const strictlySolo = item.tags.includes('solo') && !item.tags.includes('group');
+            return !strictlySolo;
+        });
+      }
 
-      // 3. EN İYİLERİ SEÇ
-      const maxScore = Math.max(...scoredItems.map(s => s.score));
-      let bestCandidates = scoredItems
-        .filter(s => s.score === maxScore)
-        .map(s => s.item);
+      // 3. DETAY FİLTRELERİ (KESİŞİM KONTROLÜ) - ZORUNLU
+      // Kategori ve Sosyal (solo/group) hariç diğer tüm filtreler (bütçe, mekan, platform vb.)
+      // seçilen öğede MUTLAKA bulunmalıdır (AND Logic).
+      
+      const detailFilters = currentFilters.filter(f => 
+        !mainCategories.includes(f) && !['solo', 'group'].includes(f)
+      );
+
+      if (detailFilters.length > 0) {
+        candidates = candidates.filter(item => {
+          // A) Oyun platformu için özel mantık (Wizard 'console' diyor, data 'ps'/'xbox' diyor)
+          if (selectedCategory === 'game') {
+             const platformFilter = detailFilters.find(f => ['pc', 'console', 'mobile'].includes(f));
+             
+             // Platform kontrolü varsa
+             if (platformFilter) {
+                if (platformFilter === 'console') {
+                    // Konsol seçildiyse: PS, Xbox veya genel 'console' tagi var mı?
+                    const isConsoleItem = item.tags.some(t => ['ps', 'xbox', 'nintendo', 'console'].includes(t));
+                    if (!isConsoleItem) return false; // Konsol oyunu değilse ele
+                } else {
+                    // PC veya Mobile seçildiyse, item bu tagi içeriyor mu?
+                    if (!item.tags.includes(platformFilter)) return false;
+                }
+             }
+             
+             // Platform dışındaki diğer oyun filtrelerini (varsa) kontrol et
+             const otherGameFilters = detailFilters.filter(f => !['pc', 'console', 'mobile'].includes(f));
+             return otherGameFilters.every(tag => item.tags.includes(tag));
+          }
+
+          // B) Diğer kategoriler (Food, Activity, Watch) için standart "HEPSİNİ İÇERMELİ" mantığı
+          // Örneğin: 'low-budget' seçildiyse, item'da mutlaka 'low-budget' olmalı.
+          return detailFilters.every(filterTag => item.tags.includes(filterTag));
+        });
+      }
 
       // 4. GEÇMİŞ KONTROLÜ (History Check)
-      // Daha önce gösterilenleri ele.
-      const unshownCandidates = bestCandidates.filter(item => !history.includes(item.id));
+      // Daha önce gösterilenleri, eğer elimizde hala yeni seçenek varsa ele.
+      const unshownCandidates = candidates.filter(item => !history.includes(item.id));
       
-      // Eğer hiç gösterilmemiş aday varsa onları kullan, yoksa mecburen eskilerden seç.
       if (unshownCandidates.length > 0) {
-        bestCandidates = unshownCandidates;
+        candidates = unshownCandidates;
+      } else if (candidates.length === 0) {
+         // Eğer filtreler o kadar sıkı ki hiçbir şey kalmadıysa
+         // Kullanıcıya en azından kategoriden (filtreleri esneterek) bir şey gösterelim.
+         // Boş sonuç dönmektense kategoriden rastgele bir şey iyidir.
+         candidates = selectedCategory 
+            ? MASTER_DATA.filter(item => item.tags.includes(selectedCategory))
+            : MASTER_DATA;
       }
 
-      // Kazananı Belirle
-      let winner: ItemType;
-      
-      if (bestCandidates.length === 0) {
-         // Hiçbir şey bulunamazsa rastgele (Fallback)
-         winner = MASTER_DATA[Math.floor(Math.random() * MASTER_DATA.length)];
-      } else {
-         winner = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
-      }
+      // 5. KAZANANI BELİRLE
+      const winner = candidates[Math.floor(Math.random() * candidates.length)];
 
       // State Güncelleme
-      setFinalChoice(winner);
-      setHistory(prev => [...prev, winner.id]); // Tarihçeye ekle
-      setIsCalculating(false);
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      if (winner) {
+          setFinalChoice(winner);
+          setHistory(prev => [...prev, winner.id]); 
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } else {
+          // Çok nadir durumda hiç veri yoksa
+          setFinalChoice(MASTER_DATA[0]);
+      }
       
-    }, 2000); // 2 saniye bekleme
+      setIsCalculating(false);
+      
+    }, 1500); // 1.5 saniye bekleme
   };
 
   const resetApp = () => {
@@ -251,7 +246,7 @@ export default function GeniusHomeScreen() {
       </View>
 
       <View style={{marginTop: 40}}>
-        <WizardButton label="Beğenmedim, Başka Öner 🎲" onPress={calculateResult} variant="secondary" />
+        <WizardButton label="Beğenmedim, Başka Öner 🎲" onPress={() => calculateResult()} variant="secondary" />
         <WizardButton label="Baştan Başla 🔄" onPress={resetApp} />
       </View>
     </View>
