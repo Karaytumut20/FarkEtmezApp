@@ -97,6 +97,40 @@ export default function GeniusHomeScreen() {
         ? MASTER_DATA.filter(item => item.tags.includes(selectedCategory))
         : MASTER_DATA;
 
+      // ************************************************
+      // START: KULLANICI İSTEĞİ - FOOD İÇİN BÜTÇE ZORUNLULUĞU
+      // ************************************************
+      const budgetFilters = ['low-budget', 'mid-budget', 'high-budget'];
+      
+      // Eğer ana kategori 'food' ise ve bir bütçe filtresi seçilmişse, bu filtreyi zorunlu kıl
+      if (selectedCategory === 'food') {
+          const selectedBudgetFilter = filters.find(f => budgetFilters.includes(f));
+          if (selectedBudgetFilter) {
+              // candidateItems'ı, sadece seçilen bütçe etiketini içerenlerle kısıtla
+              candidateItems = candidateItems.filter(item => item.tags.includes(selectedBudgetFilter));
+          }
+      }
+      // ************************************************
+      // END: KULLANICI İSTEĞİ - FOOD
+      // ************************************************
+
+      // ************************************************
+      // START: KULLANICI İSTEĞİ - ACTIVITY İÇİN KONUM ZORUNLULUĞU
+      // ************************************************
+      const locationFilters = ['home', 'outdoor'];
+      
+      // Eğer ana kategori 'activity' ise ve bir konum filtresi seçilmişse, bu filtreyi zorunlu kıl
+      if (selectedCategory === 'activity') {
+          const selectedLocationFilter = filters.find(f => locationFilters.includes(f));
+          if (selectedLocationFilter) {
+              // candidateItems'ı, sadece seçilen konum etiketini içerenlerle kısıtla
+              candidateItems = candidateItems.filter(item => item.tags.includes(selectedLocationFilter));
+          }
+      }
+      // ************************************************
+      // END: KULLANICI İSTEĞİ - ACTIVITY
+      // ************************************************
+
       // 2. PUANLAMA
       // Diğer kriterlere (bütçe, kişi sayısı vb.) göre puan ver.
       const scoredItems = candidateItems.map(item => {
@@ -135,7 +169,7 @@ export default function GeniusHomeScreen() {
          winner = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
       }
 
-      // State Güncellemeleri
+      // State Güncelleme
       setFinalChoice(winner);
       setHistory(prev => [...prev, winner.id]); // Tarihçeye ekle
       setIsCalculating(false);
