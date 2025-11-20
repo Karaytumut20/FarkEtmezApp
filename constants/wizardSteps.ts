@@ -1,32 +1,30 @@
 // constants/wizardSteps.ts
 
 export const WIZARD_STEPS: Record<string, any> = {
-  // ADIM 1: KİMLERLEYİZ? (Sadece etiket belirler, akışı dallandırmaz)
+  // ADIM 1: KİMLERLEYİZ?
   'START': {
     id: 'step_who',
     text: 'Selam! 👋\nKimlerleyiz bugün?',
     options: [
       { label: 'Tek Tabancayım 🤠', value: 'solo', nextStep: 'CATEGORY' },
-      { label: 'Kankamla / Manitayla 👯', value: 'group', nextStep: 'CATEGORY' }, // 'duo' yerine group etiketi kullandık ki verilerle eşleşsin
+      { label: 'Kankamla / Sevgilimle 👯', value: 'group', nextStep: 'CATEGORY' },
       { label: 'Kalabalık (Grup) 🎉', value: 'group', nextStep: 'CATEGORY' },
     ]
   },
 
-  // ADIM 2: KATEGORİ (Tek merkez, tekrar yok)
+  // ADIM 2: KATEGORİ (Tek Merkez)
   'CATEGORY': {
     id: 'step_category',
     text: 'Canınız ne istiyor?',
     options: [
       { label: 'Karnımız Aç (Yemek) 🍔', value: 'food', nextStep: 'BUDGET' },
       { label: 'Aktivite / Gezme 🏃', value: 'activity', nextStep: 'LOCATION' },
-      { label: 'Oyun Oynayalım 🎮', value: 'game', nextStep: 'PLATFORM' }, // DÜZELTME: 'gaming' yerine 'game' yaptık
+      { label: 'Oyun Oynayalım 🎮', value: 'game', nextStep: 'PLATFORM' }, // DÜZELTİLDİ: 'gaming' -> 'game'
       { label: 'Bir Şeyler İzleyelim 🎬', value: 'watch', nextStep: 'FINISH' },
     ]
   },
 
-  // ADIM 3: DETAYLAR
-  
-  // Yemek -> Bütçe
+  // ADIM 3: DETAY SORULARI
   'BUDGET': {
     id: 'step_budget',
     text: 'Cüzdanlar ne durumda?',
@@ -37,7 +35,6 @@ export const WIZARD_STEPS: Record<string, any> = {
     ]
   },
 
-  // Aktivite -> Mekan
   'LOCATION': {
     id: 'step_location',
     text: 'Nerede takılalım?',
@@ -47,7 +44,6 @@ export const WIZARD_STEPS: Record<string, any> = {
     ]
   },
 
-  // Oyun -> Platform (İşte PC'yi burada seçiyoruz)
   'PLATFORM': {
     id: 'step_platform',
     text: 'Hangi platform?',
