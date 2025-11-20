@@ -1,76 +1,58 @@
 // constants/wizardSteps.ts
 
 export const WIZARD_STEPS: Record<string, any> = {
+  // ADIM 1: KİMLERLEYİZ? (Sadece etiket belirler, akışı dallandırmaz)
   'START': {
-    id: 'step1',
-    text: 'Selam Kardeşim! 👋\nBugün ortam nasıl?',
+    id: 'step_who',
+    text: 'Selam! 👋\nKimlerleyiz bugün?',
     options: [
-      { label: 'Tek Tabancayım 🤠', value: 'solo', nextStep: 'MOOD_SOLO' },
-      { label: 'Kankamla/Manitayla 👯', value: 'duo', nextStep: 'MOOD_GROUP' },
-      { label: 'Aşiret Gibiyiz (Kalabalık) 🎉', value: 'group', nextStep: 'MOOD_GROUP' },
+      { label: 'Tek Tabancayım 🤠', value: 'solo', nextStep: 'CATEGORY' },
+      { label: 'Kankamla / Manitayla 👯', value: 'group', nextStep: 'CATEGORY' }, // 'duo' yerine group etiketi kullandık ki verilerle eşleşsin
+      { label: 'Kalabalık (Grup) 🎉', value: 'group', nextStep: 'CATEGORY' },
     ]
   },
-  'MOOD_SOLO': {
-    id: 'step2_solo',
-    text: 'Peki, modun nasıl?',
+
+  // ADIM 2: KATEGORİ (Tek merkez, tekrar yok)
+  'CATEGORY': {
+    id: 'step_category',
+    text: 'Canınız ne istiyor?',
     options: [
-      { label: 'Kurt Gibi Açım 🐺', value: 'hungry', nextStep: 'BUDGET' },
-      { label: 'Atıştırmalık Bir Şeyler 🍪', value: 'snack', nextStep: 'BUDGET' },
-      { label: 'Sıkıldım, Aktivite Lazım 🥱', value: 'bored', nextStep: 'ENERGY' },
-      { label: 'Kafamı Dinleyeceğim 🧘', value: 'relax', nextStep: 'LOCATION_HOME' },
-      { label: 'Oyun Oynayalım 🎮', value: 'gaming', nextStep: 'PLATFORM' },
-      { label: 'Bir Şeyler İzleyelim 📺', value: 'watch', nextStep: 'FINISH' },
+      { label: 'Karnımız Aç (Yemek) 🍔', value: 'food', nextStep: 'BUDGET' },
+      { label: 'Aktivite / Gezme 🏃', value: 'activity', nextStep: 'LOCATION' },
+      { label: 'Oyun Oynayalım 🎮', value: 'game', nextStep: 'PLATFORM' }, // DÜZELTME: 'gaming' yerine 'game' yaptık
+      { label: 'Bir Şeyler İzleyelim 🎬', value: 'watch', nextStep: 'FINISH' },
     ]
   },
-  'MOOD_GROUP': {
-    id: 'step2_group',
-    text: 'Ekibin havası nasıl?',
-    options: [
-      { label: 'Herkes Açlıktan Ölüyor 🍕', value: 'hungry', nextStep: 'BUDGET' },
-      { label: 'Tatlı / Kahve Yapalım ☕', value: 'snack', nextStep: 'BUDGET' },
-      { label: 'Eğlenmek İstiyoruz 🥳', value: 'fun', nextStep: 'ENERGY' },
-      { label: 'Laklak Yapalım 🗣️', value: 'talk', nextStep: 'LOCATION_OUT' },
-      { label: 'Oyun Gecesi 🎮', value: 'gaming', nextStep: 'PLATFORM' },
-    ]
-  },
+
+  // ADIM 3: DETAYLAR
+  
+  // Yemek -> Bütçe
   'BUDGET': {
-    id: 'step3_budget',
+    id: 'step_budget',
     text: 'Cüzdanlar ne durumda?',
     options: [
-      { label: 'Ay sonu (Öğrenci İşi) 💸', value: 'low-budget', nextStep: 'FINISH' },
-      { label: 'Esnaf İşi (Orta) 💳', value: 'mid-budget', nextStep: 'FINISH' },
-      { label: 'Maaş Yattı (Krallar Gibi) 👑', value: 'high-budget', nextStep: 'FINISH' },
+      { label: 'Öğrenci İşi (Ucuz) 💸', value: 'low-budget', nextStep: 'FINISH' },
+      { label: 'Orta Halli 💳', value: 'mid-budget', nextStep: 'FINISH' },
+      { label: 'Krallar Gibi (Lüks) 👑', value: 'high-budget', nextStep: 'FINISH' },
     ]
   },
-  'ENERGY': {
-    id: 'step3_energy',
-    text: 'Enerjiniz ne seviyede?',
+
+  // Aktivite -> Mekan
+  'LOCATION': {
+    id: 'step_location',
+    text: 'Nerede takılalım?',
     options: [
-      { label: 'Pil bitik, yorma bizi 🪫', value: 'lazy', nextStep: 'LOCATION_HOME' },
-      { label: 'Enerji tavan, uçarız! 🔋', value: 'energetic', nextStep: 'LOCATION_OUT' },
+      { label: 'Evde / Kapalı 🏠', value: 'home', nextStep: 'FINISH' },
+      { label: 'Dışarıda / Açık Hava 🌳', value: 'outdoor', nextStep: 'FINISH' },
     ]
   },
-  'LOCATION_HOME': {
-    id: 'step4_home',
-    text: 'Evde ne yapalım?',
-    options: [
-      { label: 'Evden çıkmam 🏠', value: 'home', nextStep: 'FINISH' },
-      { label: 'Sadece chill takılalım 🛋️', value: 'home', nextStep: 'FINISH' },
-    ]
-  },
-  'LOCATION_OUT': {
-    id: 'step4_out',
-    text: 'Dışarıda ne yapalım?',
-    options: [
-      { label: 'Açık hava olsun ☀️', value: 'outdoor', nextStep: 'FINISH' },
-      { label: 'Kapalı mekan olsun 🏢', value: 'indoor', nextStep: 'FINISH' },
-    ]
-  },
+
+  // Oyun -> Platform (İşte PC'yi burada seçiyoruz)
   'PLATFORM': {
-    id: 'step4_platform',
-    text: 'Hangi platformdasın?',
+    id: 'step_platform',
+    text: 'Hangi platform?',
     options: [
-      { label: 'PC Master Race 🖥️', value: 'pc', nextStep: 'FINISH' },
+      { label: 'Bilgisayar (PC) 🖥️', value: 'pc', nextStep: 'FINISH' },
       { label: 'Konsol (PS/Xbox) 🎮', value: 'console', nextStep: 'FINISH' },
       { label: 'Mobil 📱', value: 'mobile', nextStep: 'FINISH' },
     ]
