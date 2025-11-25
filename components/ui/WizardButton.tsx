@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.2)'
   },
   secondary: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#f34444ff',
     borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.5)',
     shadowOpacity: 0,
@@ -58,5 +58,6 @@ const styles = StyleSheet.create({
   },
   secondaryText: {
     color: '#fff',
+    
   }
 });

@@ -1,33 +1,78 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, StatusBar, Animated, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, StatusBar, Animated, TouchableOpacity, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { WizardButton } from '@/components/ui/WizardButton';
 import { MASTER_DATA, WIZARD_STEPS, ItemType } from '@/constants/masterData';
 import * as Haptics from 'expo-haptics';
 
+// ADMOB IMPORTLARI
+import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
+
+// CANLI REKLAM BİRİMİ KİMLİĞİN (Resimden aldığım kod)
+// Geliştirme yaparken TestIds.INTERSTITIAL kullanmak daha güvenlidir, ban yememek için.
+// Yayına çıkarken productionID'yi kullanacağız.
+const productionID = 'ca-app-pub-4816381866965413/9658718388';
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : productionID;
+
+// Reklamı oluşturuyoruz
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  requestNonPersonalizedAdsOnly: true,
+});
+
 // Animasyonlu arka plan renkleri
 const BG_COLORS = {
   START: '#1A1A2E',
   FOOD: '#C0392B',
   ACTIVITY: '#2980B9',
-  RESULT: '#27AE60'
+  Result: '#27AE60' // Düzeltildi: RESULT -> Result (Tutarlılık için)
 };
 
 export default function GeniusHomeScreen() {
   // --- STATE ---
   const [currentStepId, setCurrentStepId] = useState<string>('START');
-  const [filters, setFilters] = useState<string[]>([]); // Seçilen etiketler (tags)
+  const [filters, setFilters] = useState<string[]>([]); 
   const [isFinished, setIsFinished] = useState(false);
   const [finalChoice, setFinalChoice] = useState<ItemType | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   
-  // Aynı oturumda çıkanları tekrar göstermemek için geçmiş tutuyoruz
+  // Reklam yüklendi mi kontrolü
+  const [adLoaded, setAdLoaded] = useState(false);
+  // Reklam sonrası analiz başlatmak için geçici state
+  const [pendingFilters, setPendingFilters] = useState<string[] | null>(null);
+
   const [history, setHistory] = useState<string[]>([]); 
 
   // --- ANIMASYON DEĞERLERİ ---
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
+
+  // --- ADMOB LISTENER VE YÜKLEME ---
+  useEffect(() => {
+    const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+      setAdLoaded(true);
+    });
+
+    const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+      setAdLoaded(false);
+      // Reklam kapandığında analizi başlat
+      if (pendingFilters) {
+        calculateResult(pendingFilters);
+        setPendingFilters(null);
+      }
+      // Bir sonraki tur için reklamı tekrar yükle
+      interstitial.load();
+    });
+
+    // İlk yükleme
+    interstitial.load();
+
+    // Temizlik
+    return () => {
+      unsubscribe();
+      unsubscribeClosed();
+    };
+  }, [pendingFilters]);
 
   // --- FONKSİYONLAR ---
 
@@ -47,24 +92,37 @@ export default function GeniusHomeScreen() {
       }
 
       if (nextStepId === 'FINISH') {
-        // Sonuca giderken güncel filtreleri parametre olarak gönderiyoruz
-        // çünkü state güncellemesi asenkron olabilir.
-        calculateResult(newFilters);
+        // BURASI DEĞİŞTİ: Önce reklam var mı diye bakıyoruz.
+        if (adLoaded) {
+          // Reklam varsa, filtreleri beklemeye al ve reklamı göster
+          setPendingFilters(newFilters);
+          interstitial.show();
+        } else {
+          // Reklam yüklenmediyse direkt analize geç
+          calculateResult(newFilters);
+        }
       } else {
         setCurrentStepId(nextStepId);
+        
+        // 3. Yeni ekranı getir (Sadece finish değilse burası çalışır, finish ise calculateResult içindeki akış çalışacak)
+        slideAnim.setValue(50);
+        Animated.parallel([
+          Animated.timing(fadeAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
+          Animated.spring(slideAnim, { toValue: 0, friction: 5, useNativeDriver: true })
+        ]).start();
       }
-
-      // 3. Yeni ekranı getir (Pozisyonu sıfırla)
-      slideAnim.setValue(50);
-      Animated.parallel([
-        Animated.timing(fadeAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
-        Animated.spring(slideAnim, { toValue: 0, friction: 5, useNativeDriver: true })
-      ]).start();
     });
   };
 
   // --- GELİŞTİRİLMİŞ KATI FİLTRELEME MOTORU ---
   const calculateResult = (currentFilters: string[] = filters) => {
+    // Önce Loading Ekranını Göster (Animasyonla gelmesi için fadeAnim'i ayarla)
+    slideAnim.setValue(50);
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
+      Animated.spring(slideAnim, { toValue: 0, friction: 5, useNativeDriver: true })
+    ]).start();
+
     setIsFinished(true);
     setIsCalculating(true);
 
@@ -72,114 +130,93 @@ export default function GeniusHomeScreen() {
     setTimeout(() => {
       console.log("Seçilen Filtreler:", currentFilters);
 
-      // 1. ANA KATEGORİYİ BUL (Zorunlu)
       const mainCategories = ['food', 'activity', 'game', 'watch'];
       const selectedCategory = currentFilters.find(f => mainCategories.includes(f));
 
-      // Eğer kategori yoksa hepsini getir (Hata koruması), varsa sadece o kategoriyi al.
       let candidates = selectedCategory 
         ? MASTER_DATA.filter(item => item.tags.includes(selectedCategory))
         : MASTER_DATA;
 
-      // 2. SOSYAL FİLTRELEME (SOLO vs GROUP) - ZORUNLU
-      // Kullanıcının ilk baştaki tercihine göre uyumsuz olanları kesinlikle eliyoruz.
       const isSolo = currentFilters.includes('solo');
       const isGroup = currentFilters.includes('group');
 
       if (isSolo) {
-        // Eğer kullanıcı YALNIZ ise: Sadece grup gerektirenleri çıkar.
-        // Bir item 'group' tagine sahip ama 'solo' tagine sahip değilse, o aktivite tek yapılamaz demektir.
         candidates = candidates.filter(item => {
             const requiresGroup = item.tags.includes('group') && !item.tags.includes('solo');
             return !requiresGroup; 
         });
       } 
       else if (isGroup) {
-        // Eğer kullanıcı GRUP ise: Sadece solo yapılanları çıkar.
-        // Bir item 'solo' tagine sahip ama 'group' tagine sahip değilse, o aktivite grupla yapılamaz demektir.
         candidates = candidates.filter(item => {
             const strictlySolo = item.tags.includes('solo') && !item.tags.includes('group');
             return !strictlySolo;
         });
       }
 
-      // 3. DETAY FİLTRELERİ (KESİŞİM KONTROLÜ) - ZORUNLU
-      // Kategori ve Sosyal (solo/group) hariç diğer tüm filtreler (bütçe, mekan, platform vb.)
-      // seçilen öğede MUTLAKA bulunmalıdır (AND Logic).
-      
       const detailFilters = currentFilters.filter(f => 
         !mainCategories.includes(f) && !['solo', 'group'].includes(f)
       );
 
       if (detailFilters.length > 0) {
         candidates = candidates.filter(item => {
-          // A) Oyun platformu için özel mantık (Wizard 'console' diyor, data 'ps'/'xbox' diyor)
           if (selectedCategory === 'game') {
              const platformFilter = detailFilters.find(f => ['pc', 'console', 'mobile'].includes(f));
-             
-             // Platform kontrolü varsa
              if (platformFilter) {
                 if (platformFilter === 'console') {
-                    // Konsol seçildiyse: PS, Xbox veya genel 'console' tagi var mı?
                     const isConsoleItem = item.tags.some(t => ['ps', 'xbox', 'nintendo', 'console'].includes(t));
-                    if (!isConsoleItem) return false; // Konsol oyunu değilse ele
+                    if (!isConsoleItem) return false; 
                 } else {
-                    // PC veya Mobile seçildiyse, item bu tagi içeriyor mu?
                     if (!item.tags.includes(platformFilter)) return false;
                 }
              }
-             
-             // Platform dışındaki diğer oyun filtrelerini (varsa) kontrol et
              const otherGameFilters = detailFilters.filter(f => !['pc', 'console', 'mobile'].includes(f));
              return otherGameFilters.every(tag => item.tags.includes(tag));
           }
-
-          // B) Diğer kategoriler (Food, Activity, Watch) için standart "HEPSİNİ İÇERMELİ" mantığı
-          // Örneğin: 'low-budget' seçildiyse, item'da mutlaka 'low-budget' olmalı.
           return detailFilters.every(filterTag => item.tags.includes(filterTag));
         });
       }
 
-      // 4. GEÇMİŞ KONTROLÜ (History Check)
-      // Daha önce gösterilenleri, eğer elimizde hala yeni seçenek varsa ele.
       const unshownCandidates = candidates.filter(item => !history.includes(item.id));
       
       if (unshownCandidates.length > 0) {
         candidates = unshownCandidates;
       } else if (candidates.length === 0) {
-         // Eğer filtreler o kadar sıkı ki hiçbir şey kalmadıysa
-         // Kullanıcıya en azından kategoriden (filtreleri esneterek) bir şey gösterelim.
-         // Boş sonuç dönmektense kategoriden rastgele bir şey iyidir.
          candidates = selectedCategory 
             ? MASTER_DATA.filter(item => item.tags.includes(selectedCategory))
             : MASTER_DATA;
       }
 
-      // 5. KAZANANI BELİRLE
       const winner = candidates[Math.floor(Math.random() * candidates.length)];
 
-      // State Güncelleme
       if (winner) {
           setFinalChoice(winner);
           setHistory(prev => [...prev, winner.id]); 
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } else {
-          // Çok nadir durumda hiç veri yoksa
           setFinalChoice(MASTER_DATA[0]);
       }
       
       setIsCalculating(false);
       
-    }, 1500); // 1.5 saniye bekleme
+    }, 2500); // Analiz süresini biraz uzattım (reklamdan sonra loading biraz daha anlamlı görünsün)
   };
 
   const resetApp = () => {
-    setFilters([]);
-    setFinalChoice(null);
-    setIsFinished(false);
-    setIsCalculating(false);
-    setCurrentStepId('START');
-    setHistory([]); // Geçmişi temizle
+    // Animasyonla çıkış
+    Animated.timing(fadeAnim, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => {
+        setFilters([]);
+        setFinalChoice(null);
+        setIsFinished(false);
+        setIsCalculating(false);
+        setCurrentStepId('START');
+        
+        // Animasyonla giriş
+        slideAnim.setValue(50);
+        Animated.parallel([
+            Animated.timing(fadeAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
+            Animated.spring(slideAnim, { toValue: 0, friction: 5, useNativeDriver: true })
+        ]).start();
+    });
   };
 
   // --- ARAYÜZ PARÇALARI ---
@@ -219,7 +256,7 @@ export default function GeniusHomeScreen() {
         {filters.includes('food') ? 'Mideler taranıyor...' : 
          filters.includes('game') ? 'Oyun kütüphanesi açılıyor...' :
          filters.includes('watch') ? 'IMDB puanları kontrol ediliyor...' :
-         'Seçenekler eleniyor...'}
+         'En iyi seçenekler eleniyor...'}
       </Text>
       <View style={styles.loaderBox}>
         <Text style={{fontSize: 80}}>🧠</Text>
@@ -246,14 +283,20 @@ export default function GeniusHomeScreen() {
       </View>
 
       <View style={{marginTop: 40}}>
-        <WizardButton label="Beğenmedim, Başka Öner 🎲" onPress={() => calculateResult()} variant="secondary" />
+        <WizardButton 
+            label="Beğenmedim, Başka Öner 🎲" 
+            // Başka öner derken tekrar reklam göstermek isteyebilirsin, 
+            // ama şimdilik direkt analize yolluyoruz:
+            onPress={() => calculateResult()} 
+            variant="secondary" 
+        />
         <WizardButton label="Baştan Başla 🔄" onPress={resetApp} />
       </View>
     </View>
   );
 
   return (
-    <View style={[styles.mainContainer, { backgroundColor: isFinished ? BG_COLORS.RESULT : BG_COLORS.START }]}>
+    <View style={[styles.mainContainer, { backgroundColor: isFinished ? BG_COLORS.Result : BG_COLORS.START }]}>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{flex: 1}}>
         
@@ -300,7 +343,7 @@ const styles = StyleSheet.create({
 
   // Yükleniyor Alanı
   calculatingTitle: { color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center' },
-  calculatingSubtitle: { color: '#eee', fontSize: 18, marginTop: 10, opacity: 0.8 },
+  calculatingSubtitle: { color: '#eee', fontSize: 18, marginTop: 10, opacity: 0.8, textAlign: 'center' },
   loaderBox: { marginTop: 50, alignItems: 'center', justifyContent: 'center', height: 200 },
 
   // Sonuç Alanı
