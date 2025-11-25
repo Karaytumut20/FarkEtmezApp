@@ -1,9 +1,11 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { WizardButton } from '@/components/ui/WizardButton';
 import { ItemType, MASTER_DATA, WIZARD_STEPS } from '@/constants/masterData';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
+import { useNavigation } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // ADMOB IMPORTLARI
@@ -16,9 +18,8 @@ import {
 } from 'react-native-google-mobile-ads';
 
 // --- REKLAM KİMLİKLERİ ---
-// Geliştirme modunda Test ID, Production modunda Gerçek ID kullanılır.
 const interstitialID = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-4816381866965413/9658718388';
-const bannerID = __DEV__ ? TestIds.BANNER : 'ca-app-pub-4816381866965413/4142683731'; // Resimden alınan ID
+const bannerID = __DEV__ ? TestIds.BANNER : 'ca-app-pub-4816381866965413/4142683731';
 
 // Interstitial Reklamı Oluştur
 const interstitial = InterstitialAd.createForAdRequest(interstitialID, {
@@ -33,6 +34,9 @@ const BG_COLORS = {
 };
 
 export default function GeniusHomeScreen() {
+  // --- NAVIGATION HOOK ---
+  const navigation = useNavigation<BottomTabNavigationProp<any>>();
+
   // --- STATE ---
   const [currentStepId, setCurrentStepId] = useState<string>('START');
   const [filters, setFilters] = useState<string[]>([]); 
@@ -176,6 +180,8 @@ export default function GeniusHomeScreen() {
   };
 
   const resetApp = () => {
+    if (currentStepId === 'START' && !isFinished) return;
+
     Animated.timing(fadeAnim, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => {
         setFilters([]);
         setFinalChoice(null);
@@ -190,6 +196,15 @@ export default function GeniusHomeScreen() {
         ]).start();
     });
   };
+
+  // --- TAB PRESS LISTENER ---
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      resetApp();
+    });
+
+    return unsubscribe;
+  }, [navigation, currentStepId, isFinished]);
 
   // --- RENDER HELPER ---
   const renderContent = () => {
@@ -223,6 +238,8 @@ export default function GeniusHomeScreen() {
           </View>
           <View style={{marginTop: 40}}>
             <WizardButton label="Beğenmedim, Başka Öner 🎲" onPress={() => calculateResult()} variant="secondary" />
+            {/* "Baştan Başla" butonu burada hala var çünkü sonuç ekranında kullanıcı isteyebilir. 
+                Ancak sihirbaz adımları içindeki "Başa Dön" linki kaldırıldı. */}
             <WizardButton label="Baştan Başla 🔄" onPress={resetApp} />
           </View>
         </View>
@@ -241,11 +258,7 @@ export default function GeniusHomeScreen() {
             <WizardButton key={index} label={opt.label} onPress={() => changeStep(opt.nextStep, opt.value)} />
           ))}
         </View>
-        {filters.length > 0 && (
-          <TouchableOpacity onPress={resetApp} style={styles.restartLink}>
-            <Text style={styles.restartLinkText}>Başa Dön</Text>
-          </TouchableOpacity>
-        )}
+        {/* BURADAKİ "BAŞA DÖN" YAZISI VE LINKI KALDIRILDI */}
       </View>
     );
   };
@@ -259,7 +272,7 @@ export default function GeniusHomeScreen() {
         {!isFinished && (
           <View style={styles.header}>
             <IconSymbol name="wand.and.stars" size={28} color="#4ECDC4" />
-            <Text style={styles.headerTitle}>Fark Etmez <Text style={{color:'#4ECDC4'}}>GENIUS</Text></Text>
+            <Text style={styles.headerTitle}><Text style={{color:'#4ECDC4'}}>Fark Etmez </Text></Text>
           </View>
         )}
 
@@ -290,9 +303,9 @@ const styles = StyleSheet.create({
   
   header: { 
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', 
-    paddingVertical: 15, gap: 8, minHeight: 60
+    paddingVertical: 10, gap: 1, minHeight: 60
   },
-  headerTitle: { color: '#fff', fontSize: 20, fontWeight: '900', letterSpacing: 1 },
+  headerTitle: { color: '#fff', fontSize: 40, fontWeight: '900', letterSpacing: 1 ,marginTop:40},
   
   content: { 
     flex: 1, 
@@ -305,9 +318,7 @@ const styles = StyleSheet.create({
   stepIndicator: { color: '#4ECDC4', fontWeight: 'bold', marginBottom: 10, letterSpacing: 2 },
   questionText: { color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 30 },
   optionsContainer: { width: '100%', alignItems: 'center' },
-  restartLink: { marginTop: 20, padding: 10 },
-  restartLinkText: { color: '#aaa', textDecorationLine: 'underline' },
-
+  
   // LOADİNG
   calculatingTitle: { color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center' },
   calculatingSubtitle: { color: '#eee', fontSize: 18, marginTop: 10, opacity: 0.8, textAlign: 'center' },
@@ -315,7 +326,7 @@ const styles = StyleSheet.create({
 
   // SONUÇ
   resultContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  winnerHeader: { color: 'rgba(255,255,255,0.8)', fontSize: 16, fontWeight: 'bold', marginBottom: 20, letterSpacing: 3 },
+  winnerHeader: { color: 'rgba(255,255,255,0.8)', fontSize: 16, fontWeight: 'bold', marginBottom: 20, letterSpacing: 3, marginTop:60},
   winnerCard: { 
     backgroundColor: '#fff', width: '100%', borderRadius: 30, padding: 30, 
     alignItems: 'center', shadowColor: "#000", shadowOffset: {width:0, height:10}, 
@@ -336,6 +347,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'absolute',
     bottom: 0,
-    paddingBottom: Platform.OS === 'ios' ? 0 : 5, // Android'de hafif boşluk
+    paddingBottom: Platform.OS === 'ios' ? 0 : 0, // Android'de hafif boşluk
   }
 });
