@@ -12,9 +12,6 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         {/* Artık (tabs) yok, direkt index var */}
-        <Stack.Screen name="index" />
-        <Stack.Screen name="elimination-game" />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="light" />
     </ThemeProvider>
