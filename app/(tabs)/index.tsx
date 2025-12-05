@@ -18,8 +18,8 @@ import {
 } from 'react-native-google-mobile-ads';
 
 // --- REKLAM KİMLİKLERİ ---
-const interstitialID = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-4816381866965413/9658718388';
-const bannerID = __DEV__ ? TestIds.BANNER : 'ca-app-pub-4816381866965413/4142683731';
+const interstitialID = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-4816381866965413/6545423126';
+const bannerID = __DEV__ ? TestIds.BANNER : 'ca-app-pub-4816381866965413/2932494096';
 
 // Interstitial Reklamı Oluştur
 const interstitial = InterstitialAd.createForAdRequest(interstitialID, {
